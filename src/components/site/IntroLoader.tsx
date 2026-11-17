@@ -11,8 +11,8 @@ const nodes = [
   ["Finance", Wallet], ["Logistics", Truck], ["Documents", FileText], ["Compliance", ShieldCheck],
 ];
 const word = "themanager".split("");
-const MIN_MS = 1500;
-const MAX_WAIT_MS = 2200; // never hold the visitor longer than this
+const MIN_MS = 900;
+const MAX_WAIT_MS = 1400; // never hold the visitor longer than this
 
 /** Full-screen intro: modules connect one by one while the page loads, then a curtain opens onto the site. */
 export default function IntroLoader({ onDone }) {
@@ -28,9 +28,9 @@ export default function IntroLoader({ onDone }) {
     const cap = setTimeout(markLoaded, MAX_WAIT_MS);
     // time the page already spent loading counts toward the minimum, with a short floor so the animation still plays
     const realStart = performance.now();
-    const total = reduced ? 400 : Math.max(800, MIN_MS - realStart);
+    const total = reduced ? 300 : Math.max(500, MIN_MS - realStart);
     // head start so the intro opens with the logo and first nodes already connected — never an empty circle
-    const start = realStart - 300;
+    const start = realStart - 250;
     let raf, shown = 0, timer;
     const tick = now => {
       const t = Math.max(0, Math.min(1, (now - start) / total));
@@ -38,7 +38,7 @@ export default function IntroLoader({ onDone }) {
       let target = Math.round((1 - Math.pow(1 - t, 2.4)) * 100);
       if (!loaded.current) target = Math.min(target, 92);
       if (target !== shown) { shown = target; setPct(target); }
-      if (shown >= 100) { setPhase("ready"); timer = setTimeout(onDone, reduced ? 100 : 250); return; }
+      if (shown >= 100) { setPhase("ready"); timer = setTimeout(onDone, reduced ? 80 : 150); return; }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
