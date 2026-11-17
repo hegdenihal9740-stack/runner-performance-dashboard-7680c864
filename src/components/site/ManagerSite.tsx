@@ -7,6 +7,7 @@ const ModuleScene = React.lazy(() => import('./ModuleScenes'))
 import ModuleWorkspace from './ModuleWorkspace'
 import IndustryWorkspace from './IndustryWorkspace'
 import IntroLoader from './IntroLoader'
+import { Button } from '@/components/ui/button'
 function ClientModuleScene({index,paused}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="mf-scene" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><ModuleScene index={index} paused={paused||!inView} sparkles={false} distance={5.8} className="mf-canvas"/></React.Suspense>}</div>}
 function ClientOrbitalScene(){const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);if(!mounted)return <div className="orbital-canvas"/>;return <React.Suspense fallback={<div className="orbital-canvas"/>}><OrbitalScene/></React.Suspense>}
 
@@ -173,8 +174,19 @@ function Industries(){
  return <section className="section industries-section" id="industries"><div className="ind-backdrop" aria-hidden="true"><span className="ind-blob ind-blob-a"/><span className="ind-blob ind-blob-b"/><span className="ind-blob ind-blob-c"/><span className="ind-gridlines"/></div><ScrollStage className="container"><div className="industry-head"><SectionHeading eyebrow="BUILT FOR YOUR WORLD" title={<>Flexible by design.<br/><span className="gradient-text">Ready for your industry.</span></>} copy="Different industries. Different challenges. One connected platform that adapts to the way your organisation works."/><a href="#contact" className="text-link">Find your solution <ArrowRight size={16}/></a></div><div className="industry-grid">{industries.map((x,i)=><IndustryCard key={x.name} x={x} i={i} onOpen={setOpen}/>)}</div></ScrollStage><AnimatePresence>{open&&<IndustryWorkspace kind={open} onSelect={setOpen} onClose={close}/>}</AnimatePresence></section>
 }
 function Why(){
+ const reducedMotion=useReducedMotion()
  const items=[['One connected source','Reduce silos with shared data across teams and departments.',Layers3],['Clarity in real time','Give decision-makers a more current view of business performance.',Zap],['Built with security in mind','Support controlled access and accountable workflows.',LockKeyhole],['Ready to grow with you','Connect more processes as your organisation evolves.',Globe2]]
- return <section className="section why-section" id="company"><ScrollStage className="container why-grid"><div><SectionHeading eyebrow="THE MANAGER DIFFERENCE" title={<>Less complexity.<br/><span className="gradient-text">More momentum.</span></>} copy="The Manager is an AI-powered business operating system from DevOps Manager LLP, built for companies ready to scale. Bring finance, operations, sales, HR and customer workflows together."/><a className="button button-dark" href="#contact">Meet The Manager <ArrowUpRight size={16}/></a></div><div className="why-items">{items.map(([t,d,I],i)=><Reveal key={t} delay={i*.08}><div className="why-item"><span className="why-icon"><I size={20}/></span><div><h3>{t}</h3><p>{d}</p></div><span className="why-index">0{i+1}</span></div></Reveal>)}</div></ScrollStage></section>
+ return <section className="section why-section" id="company" aria-labelledby="company-heading"><div className="container why-content">
+  <div className="why-intro">
+   <motion.div initial={reducedMotion?false:{opacity:0,y:24}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.3}} transition={{duration:.7,ease}}><Eyebrow>THE MANAGER DIFFERENCE</Eyebrow><h2 id="company-heading">Less complexity.<br/><span>More momentum.</span></h2></motion.div>
+   <motion.div className="why-summary" initial={reducedMotion?false:{opacity:0,y:24}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.3}} transition={{duration:.7,delay:.12,ease}}><p>The Manager is an AI-powered business operating system from DevOps Manager LLP, built for companies ready to scale. Bring finance, operations, sales, HR and customer workflows together.</p><Button asChild variant="ghost" className="why-cta"><a href="#contact">Meet The Manager <ArrowUpRight size={18}/></a></Button></motion.div>
+  </div>
+  <div className="why-connection" aria-hidden="true"><motion.span initial={reducedMotion?false:{scaleX:0}} whileInView={{scaleX:1}} viewport={{once:true}} transition={{duration:1.2,ease}}/><i/><i/><i/><i/></div>
+  <div className="why-items">{items.map(([t,d,I],i)=><motion.article key={t} className={`why-item why-tone-${i}`} initial={reducedMotion?false:{opacity:0,y:32}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.2}} transition={{duration:.65,delay:i*.1,ease}} whileHover={reducedMotion?undefined:{y:-6}}>
+   <div className="why-item-top"><motion.span className="why-icon" whileHover={reducedMotion?undefined:{rotate:-8,scale:1.08}}><I size={25} strokeWidth={1.5}/></motion.span><span className="why-index">0{i+1}</span></div>
+   <h3>{t}</h3><p>{d}</p><span className="why-item-line" aria-hidden="true"/>
+  </motion.article>)}</div>
+ </div></section>
 }
 function Process(){
  const steps=[['Discover','Understand your teams, priorities and current workflows.'],['Connect','Bring the right modules and information together.'],['Coordinate','Help teams work from shared, up-to-date context.'],['Improve','Use insights to keep refining how work gets done.']]
