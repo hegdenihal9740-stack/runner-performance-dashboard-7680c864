@@ -27,8 +27,10 @@ export default function IntroLoader({ onDone }) {
     if (document.readyState !== "loading") markLoaded(); else document.addEventListener("DOMContentLoaded", markLoaded, { once: true });
     const cap = setTimeout(markLoaded, MAX_WAIT_MS);
     // time the page already spent loading counts toward the minimum, with a short floor so the animation still plays
-    const start = performance.now();
-    const total = reduced ? 400 : Math.max(800, MIN_MS - start);
+    const realStart = performance.now();
+    const total = reduced ? 400 : Math.max(800, MIN_MS - realStart);
+    // head start so the intro opens with the logo and first nodes already connected — never an empty circle
+    const start = realStart - 300;
     let raf, shown = 0, timer;
     const tick = now => {
       const t = Math.max(0, Math.min(1, (now - start) / total));
@@ -73,15 +75,15 @@ export default function IntroLoader({ onDone }) {
             const on = i <= active && pct > 2;
             return (
               <motion.span key={name} className={`il-node ${on ? "on" : ""}`} style={{ "--na": modulePalette[i].a }}
-                initial={{ x: x * 2.4, y: y * 2.4, opacity: 0, rotate: -120, scale: 0.4 }}
+                initial={{ x, y, opacity: 1, rotate: 0, scale: 0.9 }}
                 animate={ready ? { x: 0, y: 0, opacity: 0, scale: 0.2, rotate: 90 } : { x, y, opacity: 1, rotate: 0, scale: on ? 1.08 : 0.9 }}
-                transition={ready ? { duration: 0.45, ease: [0.7, 0, 0.84, 0], delay: i * 0.02 } : { type: "spring", stiffness: 120, damping: 14, delay: 0.1 + i * 0.06 }}>
+                transition={ready ? { duration: 0.45, ease: [0.7, 0, 0.84, 0], delay: i * 0.02 } : { type: "spring", stiffness: 120, damping: 14, delay: i * 0.03 }}>
                 <Icon size={18} strokeWidth={1.7} />
               </motion.span>
             );
           })}
 
-          <motion.div className="il-core" initial={{ scale: 0, rotate: -45 }} animate={{ scale: ready ? 1.18 : 1, rotate: 0 }} transition={{ type: "spring", stiffness: 140, damping: 13, delay: 0.05 }}>
+          <motion.div className="il-core" initial={{ scale: 1, rotate: 0 }} animate={{ scale: ready ? 1.18 : 1, rotate: 0 }} transition={{ type: "spring", stiffness: 140, damping: 13 }}>
             <span className="il-core-ring" />
             <span className="il-core-ring il-core-ring-2" />
             <motion.b className="il-mark" animate={ready ? { rotateY: 360, scale: 1.08 } : { rotateY: 0, scale: 1 }} transition={{ duration: 0.5, ease }}>M</motion.b>
@@ -93,7 +95,7 @@ export default function IntroLoader({ onDone }) {
           {word.map((c, i) => (
             <motion.span key={i} className={i >= 3 ? "il-strong" : ""} aria-hidden="true"
               initial={{ y: "110%", opacity: 0, rotateX: -80 }} animate={{ y: 0, opacity: 1, rotateX: 0 }}
-              transition={{ delay: 0.35 + i * 0.045, duration: 0.7, ease }}>{c}</motion.span>
+              transition={{ delay: 0.1 + i * 0.04, duration: 0.6, ease }}>{c}</motion.span>
           ))}
         </h1>
         <motion.small className="il-sub" initial={{ opacity: 0, letterSpacing: "0.1em" }} animate={{ opacity: 1, letterSpacing: "0.42em" }} transition={{ delay: 0.8, duration: 1.2, ease }}>BUSINESS OPERATING SYSTEM</motion.small>
