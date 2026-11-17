@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+- Scroll and 3D motion use framer-motion helpers in `ManagerSite.tsx` (Reveal, ScrollStage, TiltCard, the sticky `.dash-pin` dashboard) under `MotionConfig reducedMotion="user"`, so motion stays consistent and respects reduced-motion settings.
+- Each module's 3D scene lives in `src/components/site/ModuleScenes.tsx` (one scene per module, lazy-loaded, colours from `modulePalette.ts`); the module workspace (`ModuleWorkspace.tsx`, styled by `src/workspace.css` with `.mw-*` classes) renders through a portal to `document.body` so no section stacking context can clip it.

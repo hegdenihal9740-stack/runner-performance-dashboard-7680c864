@@ -1,0 +1,34 @@
+.il-root{position:fixed;inset:0;z-index:300;display:grid;place-items:center;color:#f4eff9;overflow:hidden;pointer-events:all}
+.il-curtain{position:absolute;left:0;width:100%;height:50.5%;background:radial-gradient(ellipse at 50% 100%,#2a1d33 0%,#140f1b 55%,#0c0910 100%)}
+.il-top{top:0}.il-bottom{bottom:0;background:radial-gradient(ellipse at 50% 0%,#2a1d33 0%,#140f1b 55%,#0c0910 100%)}
+.il-seam{position:absolute;top:50%;left:0;width:100%;height:2px;margin-top:-1px;background:linear-gradient(90deg,transparent,#f2c58d,#fff,#8fb0ff,transparent);box-shadow:0 0 24px #f2c58d;z-index:2}
+.il-stage{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center}
+.il-beams{position:fixed;inset:0;pointer-events:none;z-index:-1}
+.il-beams i{position:absolute;top:50%;left:50%;width:140vmax;height:1px;background:linear-gradient(90deg,transparent,#f2c58d33,transparent);transform-origin:0 0;animation:ilSpin 9s linear infinite}
+.il-beams i:nth-child(2){animation-duration:13s;animation-direction:reverse;background:linear-gradient(90deg,transparent,#8fb0ff2e,transparent)}
+.il-beams i:nth-child(3){animation-duration:17s;background:linear-gradient(90deg,transparent,#bf9bff26,transparent)}
+@keyframes ilSpin{to{transform:rotate(360deg)}}
+.il-constellation{position:relative;width:320px;height:320px;display:grid;place-items:center;margin-bottom:26px}
+.il-links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.il-track{fill:none;stroke:#f2c58d;stroke-width:1.2;stroke-dasharray:2 5;opacity:.55;transform:rotate(-90deg)}
+.il-links line{stroke-width:1.2}
+.il-node{position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:13px;display:grid;place-items:center;color:#8c8299;background:#ffffff08;border:1px solid #ffffff17;backdrop-filter:blur(6px);transition:color .35s,border-color .35s,box-shadow .35s,background .35s}
+.il-node.on{color:#140f1b;background:var(--na);border-color:var(--na);box-shadow:0 0 0 5px color-mix(in oklab,var(--na) 18%,transparent),0 10px 30px color-mix(in oklab,var(--na) 55%,transparent)}
+.il-core{position:relative;width:104px;height:104px;border-radius:30px;display:grid;place-items:center;background:linear-gradient(145deg,#f6d8af,#d6865d 60%,#8b5d49);box-shadow:0 20px 60px #d6865d55,inset 0 1px #fff8;perspective:600px}
+.il-core-ring{position:absolute;inset:-14px;border-radius:38px;border:1px solid #f2c58d55;animation:ilPulse 2.2s ease-out infinite}
+.il-core-ring-2{animation-delay:1.1s}
+@keyframes ilPulse{from{transform:scale(.9);opacity:.9}to{transform:scale(1.45);opacity:0}}
+.il-pct{font:800 34px/1 Manrope,sans-serif;color:#1d1421;letter-spacing:-.04em;font-variant-numeric:tabular-nums}.il-pct small{font-size:15px;margin-left:1px;opacity:.7}
+.il-mark{font:800 50px/1 Manrope,sans-serif;color:#1d1421}
+.il-burst{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:2px solid #f2c58d;pointer-events:none}
+.il-word{margin:0;font:500 clamp(34px,5vw,52px)/1.1 Manrope,sans-serif;letter-spacing:-.04em;color:#a99fb6;display:flex;overflow:hidden;padding:0 4px 4px;perspective:500px}
+.il-word span{display:inline-block;transform-origin:50% 100%}
+.il-word .il-strong{font-weight:800;background:linear-gradient(100deg,#fff,#f2c58d 60%,#d88559);-webkit-background-clip:text;background-clip:text;color:transparent}
+.il-sub{display:block;margin-top:8px;font-size:10px;font-weight:700;color:#8c8299}
+.il-status{height:22px;margin-top:26px;font-size:13px;color:#cfc6da;overflow:hidden}
+.il-status span{display:inline-flex;align-items:center;gap:8px}
+.il-dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 10px currentColor;display:inline-block}.il-dot.ok{background:#72e2bd;box-shadow:0 0 12px #72e2bd}
+.il-bar{width:220px;height:2px;margin-top:14px;border-radius:2px;background:#ffffff14;overflow:hidden}
+.il-bar i{display:block;height:100%;transform-origin:0 50%;background:linear-gradient(90deg,#8fb0ff,#f2c58d,#d88559)}
+@media(max-width:520px){.il-constellation{transform:scale(.78);margin:-30px 0 -10px}}
+@media(prefers-reduced-motion:reduce){.il-beams i,.il-core-ring{animation:none}}
